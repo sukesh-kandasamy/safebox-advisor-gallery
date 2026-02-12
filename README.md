@@ -60,8 +60,8 @@ A comprehensive video gallery and learning platform designed for advisors, built
 
 When the application starts for the first time, a default admin account is created:
 
-- **Email**: `admin@safebox.life`
-- **Password**: `Safebox@123`
+- **Email**: `admin@sample.com`
+- **Password**: `admin123`
 
 > **Note**: You can change these credentials in the Admin Settings or via environment variables/config.
 
