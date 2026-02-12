@@ -1,0 +1,33 @@
+{% for video in videos %}
+<a href="/video/{{ video.id }}"
+    class="bg-white rounded-2xl shadow-sm border border-slate-100 group block overflow-hidden hover:shadow-lg transition-shadow">
+    <div class="relative w-full overflow-hidden bg-slate-200" style="padding-bottom: 56.25%;">
+        <img src="https://img.youtube.com/vi/{{ video.youtube_id }}/maxresdefault.jpg" alt="{{ video.title }}"
+            class="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out">
+        <div
+            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/30 transition-all duration-300">
+            <div
+                class="bg-white text-safebox-700 rounded-full p-4 shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                </svg>
+            </div>
+        </div>
+        <div class="absolute top-3 left-3 bg-black/70 text-white text-xs font-bold px-2 py-1 rounded">
+            #{{ video.order_index + 1 }}
+        </div>
+    </div>
+    <div class="p-5">
+        <h3
+            class="text-lg font-bold text-slate-900 mb-2 line-clamp-2 leading-tight group-hover:text-safebox-600 transition-colors">
+            {{ video.title }}
+        </h3>
+        <p class="text-slate-500 text-sm line-clamp-2">
+            {{ video.description }}
+        </p>
+        <div class="mt-4 flex items-center text-xs text-slate-400">
+            <span>{{ video.created_at[8:10] }}-{{ video.created_at[5:7] }}-{{ video.created_at[2:4] }}</span>
+        </div>
+    </div>
+</a>
+{% endfor %}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin - Safebox Blog{% endblock %}</title>
+    <link rel="icon" href="https://safebox.life/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script src="{{ url_for('static', path='css/tailwind.js') }}"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        safebox: {
+                            50: '#e6f5f0',
+                            100: '#ccebe0',
+                            200: '#99d7c2',
+                            300: '#66c3a3',
+                            400: '#33af85',
+                            500: '#007550',
+                            600: '#006646',
+                            700: '#00573c',
+                        },
+                        surface: {
+                            50: '#fafafa',
+                            100: '#f4f4f5',
+                            200: '#e4e4e7',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #f8fafc;
+            /* slightly cooler gray */
+        }
+
+        /* Clean Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            border-radius: 9999px;
+            /* Pill shapes for modern feel */
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #0f172a;
+            /* Dark Zinc/Slate for primary actions */
+            color: white;
+            border: 1px solid transparent;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary:hover {
+            background: #1e293b;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #1e293b;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            border: 1px solid transparent;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* Modern Inputs */
+        .input-modern {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 0.925rem;
+            outline: none;
+            outline: none;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .input-modern:focus {
+            border-color: #0f172a;
+            box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.05);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        /* Glass Header */
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #e2e8f0;
+        }
+    </style>
+    {% block styles %}{% endblock %}
+</head>
+
+<body class="bg-surface-50 min-h-screen text-zinc-800">
+    {% block content %}{% endblock %}
+
+    <script src="{{ url_for('static', path='js/api.js') }}?v=2"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

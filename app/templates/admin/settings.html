@@ -1,0 +1,510 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Settings - Safebox Admin{% endblock %}
+
+{% block styles %}
+<style>
+    .settings-card {
+        background: white;
+        border-radius: 1rem;
+        border: 1px solid #e4e4e7;
+        overflow: hidden;
+    }
+
+    .settings-section {
+        padding: 1.5rem;
+        border-bottom: 1px solid #f4f4f5;
+    }
+
+    .settings-section:last-child {
+        border-bottom: none;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .section-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.75rem;
+        background: #f4f4f5;
+        color: #52525b;
+    }
+
+    .section-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #18181b;
+    }
+
+    .section-desc {
+        font-size: 0.8rem;
+        color: #71717a;
+    }
+
+    .avatar-upload {
+        position: relative;
+        width: 80px;
+        height: 80px;
+    }
+
+    .avatar-img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: #f4f4f5;
+        border: 3px solid white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .avatar-edit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 28px;
+        height: 28px;
+        background: #007550;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        border: 2px solid white;
+    }
+
+    .api-key-input {
+        font-family: monospace;
+        letter-spacing: 0.05em;
+    }
+
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        padding: 1rem 1.5rem;
+        border-radius: 0.75rem;
+        font-weight: 500;
+        font-size: 0.9rem;
+        z-index: 100;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .toast-success {
+        background: #e6f5f0;
+        color: #007550;
+        border: 1px solid #99d7c2;
+    }
+
+    .toast-error {
+        background: #fef2f2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="sticky top-0 z-50 glass">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center gap-4">
+                <a href="{{ url_for('admin_dashboard') }}" class="text-slate-500 hover:text-slate-900">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </a>
+                <h1 class="text-lg font-semibold text-slate-900">Settings</h1>
+            </div>
+            <a href="{{ url_for('home') }}" target="_blank"
+                class="text-sm font-medium text-slate-600 hover:text-slate-900">
+                View Blog ↗
+            </a>
+        </div>
+    </div>
+</header>
+<main class="max-w-2xl mx-auto px-4 sm:px-6 py-10">
+    <div class="settings-card">
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="section-title">Profile</div>
+                    <div class="section-desc">Your personal information</div>
+                </div>
+            </div>
+
+            <form id="profileForm" class="space-y-4">
+                <div class="flex items-start gap-6">
+                    <div class="avatar-upload">
+                        <img id="avatarPreview" src="" alt="Avatar" class="avatar-img">
+                        <label class="avatar-edit">
+                            <i data-lucide="camera" class="w-4 h-4"></i>
+                            <input type="file" id="avatarInput" accept="image/*" class="hidden">
+                        </label>
+                    </div>
+                    <div class="flex-1 space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-zinc-700 mb-1.5">Name</label>
+                            <input type="text" id="nameInput" class="input-modern" placeholder="Your name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-zinc-700 mb-1.5">Email</label>
+                            <input type="email" id="emailDisplay" class="input-modern bg-zinc-100" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end pt-2">
+                    <button type="submit" class="btn btn-primary btn-sm">Save Profile</button>
+                </div>
+            </form>
+        </div>
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i data-lucide="lock" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="section-title">Password</div>
+                    <div class="section-desc">Update your password</div>
+                </div>
+            </div>
+
+            <form id="passwordForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-zinc-700 mb-1.5">Current Password</label>
+                    <div class="relative">
+                        <input type="password" id="currentPassword" class="input-modern pr-10" placeholder="••••••••"
+                            oninput="togglePasswordEye(this)">
+                        <button type="button" onclick="togglePasswordField('currentPassword')"
+                            class="password-toggle absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 hidden">
+                            <i data-lucide="eye" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-zinc-700 mb-1.5">New Password</label>
+                        <div class="relative">
+                            <input type="password" id="newPassword" class="input-modern pr-10" placeholder="••••••••"
+                                oninput="togglePasswordEye(this)">
+                            <button type="button" onclick="togglePasswordField('newPassword')"
+                                class="password-toggle absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 hidden">
+                                <i data-lucide="eye" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-zinc-700 mb-1.5">Confirm Password</label>
+                        <div class="relative">
+                            <input type="password" id="confirmPassword" class="input-modern pr-10"
+                                placeholder="••••••••" oninput="togglePasswordEye(this)">
+                            <button type="button" onclick="togglePasswordField('confirmPassword')"
+                                class="password-toggle absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 hidden">
+                                <i data-lucide="eye" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end pt-2">
+                    <button type="submit" class="btn btn-primary btn-sm">Update Password</button>
+                </div>
+            </form>
+        </div>
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon bg-red-50 text-red-500">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="section-title">Account</div>
+                    <div class="section-desc">Manage your session</div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-zinc-500">
+                    Member since: <span id="memberSince" class="text-zinc-700 font-medium">-</span>
+                </div>
+                <button onclick="logout()" class="btn btn-danger btn-sm">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="cropModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
+        <div class="p-4 border-b border-zinc-200">
+            <h3 class="text-lg font-semibold text-zinc-900">Crop Profile Image</h3>
+        </div>
+        <div class="p-4">
+            <div class="relative w-full aspect-square bg-zinc-100 rounded-lg overflow-hidden">
+                <img id="cropImage" src="" alt="Crop preview" class="w-full h-full object-contain">
+            </div>
+            <div class="mt-4 flex items-center gap-4">
+                <label class="text-sm text-zinc-600">Zoom:</label>
+                <input type="range" id="cropZoom" min="0.5" max="3" step="0.1" value="1"
+                    class="flex-1 accent-safebox-600" oninput="updateCropZoom()">
+            </div>
+        </div>
+        <div class="p-4 border-t border-zinc-200 flex justify-end gap-3">
+            <button onclick="closeCropModal()"
+                class="btn btn-sm bg-zinc-100 text-zinc-700 hover:bg-zinc-200">Cancel</button>
+            <button onclick="applyCrop()" class="btn btn-primary btn-sm">Apply</button>
+        </div>
+    </div>
+</div>
+<div id="toast" class="toast"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+
+    let currentAdmin = null;
+
+    // Toast notification
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = `toast toast-${type} show`;
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Show/hide password toggle button based on input
+    function togglePasswordEye(input) {
+        const toggleBtn = input.parentElement.querySelector('.password-toggle');
+        if (input.value.length > 0) {
+            toggleBtn.classList.remove('hidden');
+        } else {
+            toggleBtn.classList.add('hidden');
+            input.type = 'password';  // Reset to password when empty
+            const icon = toggleBtn.querySelector('i');
+            icon.setAttribute('data-lucide', 'eye');
+            lucide.createIcons();
+        }
+    }
+
+    // Toggle password field visibility
+    function togglePasswordField(fieldId) {
+        const input = document.getElementById(fieldId);
+        const toggleBtn = input.parentElement.querySelector('.password-toggle');
+        const icon = toggleBtn.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.setAttribute('data-lucide', 'eye-off');
+        } else {
+            input.type = 'password';
+            icon.setAttribute('data-lucide', 'eye');
+        }
+        lucide.createIcons();
+    }
+
+    // Load admin data
+    async function loadAdminData() {
+        try {
+            const response = await fetch('/api/auth/me', { credentials: 'include' });
+
+            if (response.status === 401) {
+                window.location.href = '/admin/login';
+                return;
+            }
+
+            if (!response.ok) {
+                console.error('API error:', response.status);
+                showToast('Failed to load profile data', 'error');
+                return;
+            }
+
+            currentAdmin = await response.json();
+
+            document.getElementById('nameInput').value = currentAdmin.name || '';
+            document.getElementById('emailDisplay').value = currentAdmin.email;
+            document.getElementById('avatarPreview').src = currentAdmin.profile_image_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentAdmin.name) + '&background=007550&color=fff&size=160';
+            document.getElementById('memberSince').textContent = new Date(currentAdmin.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        } catch (e) {
+            console.error('Network error:', e);
+            showToast('Failed to connect to server', 'error');
+        }
+    }
+
+    // Profile form
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('/api/auth/profile', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                    name: document.getElementById('nameInput').value
+                })
+            });
+            if (response.ok) {
+                showToast('Profile updated successfully');
+                loadAdminData();
+            } else {
+                const err = await response.json();
+                showToast(err.detail || 'Failed to update profile', 'error');
+            }
+        } catch (e) {
+            showToast('An error occurred', 'error');
+        }
+    });
+
+    // Password form
+    document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newPass = document.getElementById('newPassword').value;
+        const confirmPass = document.getElementById('confirmPassword').value;
+
+        if (newPass !== confirmPass) {
+            showToast('Passwords do not match', 'error');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/auth/password', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                    current_password: document.getElementById('currentPassword').value,
+                    new_password: newPass,
+                    confirm_password: confirmPass
+                })
+            });
+            if (response.ok) {
+                showToast('Password updated successfully');
+                document.getElementById('passwordForm').reset();
+            } else {
+                const err = await response.json();
+                showToast(err.detail || 'Failed to update password', 'error');
+            }
+        } catch (e) {
+            showToast('An error occurred', 'error');
+        }
+    });
+
+    // Avatar upload - open crop modal
+    let pendingFile = null;
+    let cropZoom = 1;
+
+    document.getElementById('avatarInput').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        pendingFile = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('cropImage').src = e.target.result;
+            document.getElementById('cropZoom').value = 1;
+            cropZoom = 1;
+            updateCropZoom();
+            document.getElementById('cropModal').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+        e.target.value = ''; // Reset input
+    });
+
+    function updateCropZoom() {
+        cropZoom = parseFloat(document.getElementById('cropZoom').value);
+        const img = document.getElementById('cropImage');
+        img.style.transform = `scale(${cropZoom})`;
+    }
+
+    function closeCropModal() {
+        document.getElementById('cropModal').classList.add('hidden');
+        pendingFile = null;
+    }
+
+    async function applyCrop() {
+        if (!pendingFile) return;
+
+        // Create canvas to crop/resize image
+        const img = document.getElementById('cropImage');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Output size 200x200
+        const size = 200;
+        canvas.width = size;
+        canvas.height = size;
+
+        // Fill white background to prevent transparent becoming black
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, size, size);
+
+        // Create temp image for proper drawing
+        const tempImg = new Image();
+        tempImg.onload = async () => {
+            // Calculate crop based on zoom
+            const srcSize = Math.min(tempImg.width, tempImg.height) / cropZoom;
+            const srcX = (tempImg.width - srcSize) / 2;
+            const srcY = (tempImg.height - srcSize) / 2;
+
+            ctx.drawImage(tempImg, srcX, srcY, srcSize, srcSize, 0, 0, size, size);
+
+            // Convert to blob
+            canvas.toBlob(async (blob) => {
+                const formData = new FormData();
+                formData.append('file', blob, 'profile.jpg');
+
+                try {
+                    const uploadRes = await fetch('/api/admin/upload', {
+                        method: 'POST',
+                        credentials: 'include',
+                        body: formData
+                    });
+                    if (uploadRes.ok) {
+                        const uploadData = await uploadRes.json();
+
+                        await fetch('/api/auth/profile', {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            credentials: 'include',
+                            body: JSON.stringify({ profile_image_url: uploadData.url })
+                        });
+
+                        document.getElementById('avatarPreview').src = uploadData.url;
+                        showToast('Profile image updated');
+                        closeCropModal();
+                    }
+                } catch (e) {
+                    showToast('Failed to upload image', 'error');
+                }
+            }, 'image/jpeg', 0.9);
+        };
+        tempImg.src = img.src;
+    }
+
+    // Logout
+    async function logout() {
+        await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+        window.location.href = '/admin/login';
+    }
+
+    // Initialize
+    loadAdminData();
+</script>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="relative overflow-hidden bg-white">
+    <div class="absolute inset-0 overflow-hidden">
+        <div
+            class="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-safebox-100/50 to-emerald-100/30 rounded-full blur-3xl">
+        </div>
+        <div
+            class="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-gradient-to-tr from-teal-100/40 to-safebox-50/30 rounded-full blur-3xl">
+        </div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 lg:py-40">
+        <div class="max-w-4xl mx-auto text-center">
+            <div
+                class="inline-flex items-center gap-2 bg-safebox-50 rounded-full px-4 py-2 mb-8 border border-safebox-100 animate-fade-in-up">
+                <span class="w-2 h-2 bg-safebox-500 rounded-full"></span>
+                <span class="text-safebox-700 text-sm font-semibold">Advisor Portal</span>
+            </div>
+
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight tracking-tight mb-8"
+                style="font-family: 'Manrope', sans-serif;">
+                Welcome, Trusted Advisors.
+            </h1>
+
+            <p
+                class="text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
+                We have prepared a series of videos to guide you through the platform.
+                Please watch them below to understand how Safebox empowers you and your clients.
+            </p>
+
+            <div class="flex justify-center animate-fade-in-up animation-delay-300">
+                <a href="#videos"
+                    class="inline-flex items-center justify-center gap-2 bg-safebox-600 text-white font-semibold px-8 py-4 rounded-full shadow-lg shadow-safebox-600/25 hover:bg-safebox-700 hover:shadow-xl hover:shadow-safebox-600/30 transition-all transform hover:-translate-y-1">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                    Watch Video Tutorials
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="videos" class="max-w-7xl mx-auto px-4 py-16 md:py-24">
+    <div class="mb-12 text-center max-w-2xl mx-auto">
+        <span class="inline-block text-safebox-600 font-semibold text-sm uppercase tracking-wider mb-3">Learn
+            More</span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900 tracking-tight font-display">
+            Video Tutorials & Insights
+        </h2>
+        <p class="text-lg text-slate-500">
+            Discover how Safebox keeps your documents secure with our helpful video guides.
+        </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for video in videos %}
+        <a href="/video/{{ video.id }}" class="card-modern group block overflow-hidden bg-white">
+            <div class="relative w-full overflow-hidden bg-surface-200" style="padding-bottom: 56.25%;">
+                <img src="https://img.youtube.com/vi/{{ video.youtube_id }}/maxresdefault.jpg" alt="{{ video.title }}"
+                    class="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out">
+                <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/20 backdrop-blur-[2px] transition-all duration-300">
+                    <div
+                        class="bg-white/90 text-safebox-700 rounded-full p-4 shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 ml-1" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6">
+                <h2
+                    class="text-xl font-bold text-slate-900 mb-2 line-clamp-2 leading-tight font-display group-hover:text-safebox-600 transition-colors">
+                    {{ video.title }}
+                </h2>
+                <p class="text-slate-500 text-sm line-clamp-2 leading-relaxed">
+                    {{ video.description }}
+                </p>
+
+                <div
+                    class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium uppercase tracking-wider">
+                    <span>Watch Now</span>
+                    <span>{{ video.created_at[8:10] }}-{{ video.created_at[5:7] }}-{{ video.created_at[2:4] }}</span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    {% if total_videos > 6 %}
+    <div class="mt-12 text-center">
+        <a href="/videos"
+            class="inline-flex items-center gap-2 btn bg-safebox-600 text-white hover:bg-safebox-700 font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all">
+            View All Videos
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+        </a>
+    </div>
+    {% endif %}
+
+    {% if not videos %}
+    <div class="text-center py-24 bg-white rounded-3xl shadow-sm border border-slate-100">
+        <div class="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900 mb-2">No videos yet</h3>
+        <p class="text-slate-500 max-w-sm mx-auto">
+            Check back later for new content or sign in to add videos.
+        </p>
+    </div>
+    {% endif %}
+</section>
+
+
+{% endblock %}

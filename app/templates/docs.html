@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Platform Guide - Safebox for Advisors{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-br from-safebox-600 to-safebox-700 text-white py-20">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <div
+            class="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 mb-6 backdrop-blur-sm border border-white/20">
+            <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+            <span class="text-white text-sm font-semibold tracking-wide">Advisor Academy</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 font-display"
+            style="font-family: 'Manrope', sans-serif;">
+            Mastering the Safebox Platform
+        </h1>
+        <p class="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
+            A comprehensive guide to using Safebox to secure your clients' legacies and grow your advisory practice.
+        </p>
+    </div>
+</section>
+
+<section class="bg-white py-16 md:py-24">
+    <div class="max-w-3xl mx-auto px-4">
+
+        <!-- The Core Philosophy -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6 font-display">The Learning Path</h2>
+            <div class="prose prose-lg text-slate-600">
+                <p>
+                    Welcome to the Safebox Advisor Platform. We have designed our training resources with a specific
+                    <b>linear progression</b> in mind. Unlike a typical help center where you might search for random
+                    topics,
+                    our video library is structured as a <b>course</b>.
+                </p>
+                <p>
+                    To truly master the platform and provide the highest level of service to your clients, we strongly
+                    recommend
+                    watching the videos in their numbered order.
+                </p>
+            </div>
+        </div>
+
+        <!-- The Workflow Visual -->
+        <div class="bg-safebox-50 rounded-3xl p-8 md:p-12 mb-16 border border-safebox-100">
+            <h3 class="text-2xl font-bold text-slate-900 mb-8 text-center">Your Journey to Expertise</h3>
+
+            <div class="relative">
+                <!-- Vertical Line -->
+                <div class="absolute left-8 top-4 bottom-4 w-0.5 bg-safebox-200 hidden md:block"></div>
+
+                <div class="space-y-10">
+                    <!-- Step 1 -->
+                    <div class="relative flex flex-col md:flex-row gap-6">
+                        <div class="flex-none z-10">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg shadow-safebox-600/5 border border-safebox-100 mx-auto md:mx-0">
+                                <span class="text-2xl font-bold text-safebox-600">01</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-900 mb-2 text-center md:text-left">Foundation &
+                                Philosophy</h4>
+                            <p class="text-slate-600 text-center md:text-left">
+                                The first set of videos explains <i>why</i> Safebox exists and the unique value
+                                proposition for high-net-worth families.
+                                Understanding this "why" is crucial for your client conversations.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative flex flex-col md:flex-row gap-6">
+                        <div class="flex-none z-10">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg shadow-safebox-600/5 border border-safebox-100 mx-auto md:mx-0">
+                                <span class="text-2xl font-bold text-safebox-600">02</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-900 mb-2 text-center md:text-left">Core
+                                Functionality</h4>
+                            <p class="text-slate-600 text-center md:text-left">
+                                Next, we dive into the "how". These videos cover the essential mechanics: uploading
+                                documents, organizing the vault,
+                                and setting up permissions. These build directly upon the foundational concepts.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative flex flex-col md:flex-row gap-6">
+                        <div class="flex-none z-10">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg shadow-safebox-600/5 border border-safebox-100 mx-auto md:mx-0">
+                                <span class="text-2xl font-bold text-safebox-600">03</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-900 mb-2 text-center md:text-left">Advanced
+                                Workflows</h4>
+                            <p class="text-slate-600 text-center md:text-left">
+                                Once you grasp the core, we introduce advanced features like legacy handoff protocols
+                                and family sharing.
+                                These features require a solid understanding of the basics to configure correctly.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">Ready to Begin?</h2>
+            <p class="text-slate-600 mb-8 max-w-lg mx-auto">Start with the first video in the series to begin your
+                certification journey.</p>
+            <a href="/videos"
+                class="inline-flex items-center gap-2 bg-safebox-600 text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:bg-safebox-700 hover:shadow-xl transition-all">
+                Go to Video Library
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

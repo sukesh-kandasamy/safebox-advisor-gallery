@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Safebox Advisors guide{% endblock %}</title>
+    <meta name="description"
+        content="{% block meta_description %}Stay updated with the latest insights from Safebox.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}Safebox, blog, secure documents{% endblock %}">
+    <link rel="icon" href="https://safebox.life/favicon.ico">
+<meta property="og:title" content="{% block og_title %}Safebox Blog{% endblock %}">
+    <meta property="og:description"
+        content="{% block og_description %}Stay updated with the latest insights from Safebox.{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}https://safebox.life/safebox.png{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+<script src="{{ url_for('static', path='css/tailwind.js') }}"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        safebox: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#007550',  /* Main brand color */
+                            700: '#006344',
+                            800: '#005238',
+                            900: '#00422d',
+                        },
+                        surface: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Outfit', 'system-ui', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        '4xl': '2rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1)',
+                        'floating': '0 8px 16px -4px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #f8fafc;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Material You-ish Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            /* Pill shape */
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #007550;
+            color: white;
+            border: 1px solid transparent;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background: #006040;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #007550;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #f0fdf4;
+            border-color: #007550;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: #475569;
+        }
+
+        .btn-ghost:hover {
+            background: #f1f5f9;
+            color: #007550;
+        }
+
+        /* Modern Inputs */
+        .input-modern {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            background: #f1f5f9;
+            /* Surface 100 */
+            border: 2px solid transparent;
+            border-radius: 1rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .input-modern:focus {
+            background: white;
+            border-color: #007550;
+            box-shadow: 0 0 0 4px rgba(0, 117, 80, 0.1);
+        }
+
+        /* Card Styles */
+        .card-modern {
+            background: white;
+            border-radius: 1.5rem;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Glassmorphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Hero Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+
+        .animation-delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .animation-delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .animation-delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        .animation-delay-400 {
+            animation-delay: 0.4s;
+        }
+
+        .animation-delay-500 {
+            animation-delay: 0.5s;
+        }
+
+        .animation-delay-600 {
+            animation-delay: 0.6s;
+        }
+
+        .opacity-0 {
+            opacity: 0;
+        }
+    </style>
+{% block styles %}{% endblock %}
+</head>
+
+<body class="bg-surface-50 min-h-screen flex flex-col text-zinc-800">
+    {% include 'components/header.html' %}
+
+    {% block content %}{% endblock %}
+
+    {% if show_footer %}
+    {% include 'components/footer.html' %}
+    {% endif %}
+<script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <script src="{{ url_for('static', path='js/api.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>
